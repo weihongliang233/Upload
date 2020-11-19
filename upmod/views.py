@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpRequest
 from django.shortcuts import render
 from .forms import DocumentForm
 '''
@@ -6,7 +6,7 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm()
         if form.is_valid():
-            # ÕâÃ´×ö¾Í¿ÉÒÔÁË£¬ÎÄ¼ş»á±»±£´æµ½ModelÖĞupload_to²ÎÊıÖ¸¶¨µÄÎ»ÖÃ
+            # è¿™ä¹ˆåšå°±å¯ä»¥äº†ï¼Œæ–‡ä»¶ä¼šè¢«ä¿å­˜åˆ°Modelä¸­upload_toå‚æ•°æŒ‡å®šçš„ä½ç½®
             form.save()
             return HttpResponse('Upload Success')
     else:
@@ -14,7 +14,7 @@ def upload_file(request):
     return HttpResponse("Upload Failed")
 '''
 
-def model_form_upload(request):
+def model_form_upload(request:HttpRequest):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -22,4 +22,6 @@ def model_form_upload(request):
             return HttpResponse('Upload Success')
     else:
         form = DocumentForm()
-    return HttpResponse('Upload Failed')
+    return render(request, 'core/model_form_upload.html', {
+        'form': form
+    })

@@ -1,0 +1,4 @@
+db.sqlite3
+Upload/__pycache__/
+upmod/__pycache__/
+upmod/migrations

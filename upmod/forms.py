@@ -1,5 +1,3 @@
-import django
-from upmod.views import upload_file
 from django import forms
 from django.db import models
 from .models import Document
