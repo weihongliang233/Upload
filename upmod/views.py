@@ -1,3 +1,4 @@
+
 from django.http import HttpResponse,HttpRequest
 from django.shortcuts import render
 from .forms import DocumentForm
@@ -18,10 +19,11 @@ def model_form_upload(request:HttpRequest):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            form.save(commit=True)
             return HttpResponse('Upload Success')
+        else: 
+            print( form.errors.as_text())
+            return HttpResponse('POST is good but not success')
     else:
         form = DocumentForm()
-    return render(request, 'core/model_form_upload.html', {
-        'form': form
-    })
+    return HttpRequest('Upload Failed')
