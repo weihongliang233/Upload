@@ -1,7 +1,5 @@
 
 from django.http import HttpResponse,HttpRequest
-from django.shortcuts import render
-from .forms import DocumentForm
 '''
 def upload_file(request):
     if request.method == 'POST':
@@ -16,14 +14,13 @@ def upload_file(request):
 '''
 
 def model_form_upload(request:HttpRequest):
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save(commit=True)
-            return HttpResponse('Upload Success')
-        else: 
-            print( form.errors.as_text())
-            return HttpResponse('POST is good but not success')
+    def handle_uploaded_file(f):
+        with open('/mydata/My_Work/django_project/Upload/upmod/FileStore/'+f.name, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
+
+    if request.method=='POST':
+        handle_uploaded_file(request.FILES['file'])
+        return(HttpResponse("Upload success"))
     else:
-        form = DocumentForm()
-    return HttpRequest('Upload Failed')
+        return(HttpResponse("Failed"))
